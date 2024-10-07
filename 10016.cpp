@@ -19,7 +19,6 @@ void upsideDownFlip(int r, vector<vector<int>> &m) {
         row++;
     }
 }
-
 void leftRightFlip(int r, vector<vector<int>> &m) {
     int n = m.size(), rBeg = r-1, rEnd = n-r, col;
     for(int i = rBeg; i <= rEnd; i++) {
@@ -32,7 +31,6 @@ void leftRightFlip(int r, vector<vector<int>> &m) {
         }
     }
 }
-
 void mainInverseDiagonalFlip(int r, vector<vector<int>> &m) {
     int n = m.size(), rBeg = r-1, rEnd = n-r;
     for(int i = rBeg; i <= rEnd; i++) {
@@ -43,7 +41,6 @@ void mainInverseDiagonalFlip(int r, vector<vector<int>> &m) {
         }
     }
 }
-
 void mainDiagonalFlip(int r, vector<vector<int>> &m) {
     int n = m.size(), rBeg = r-1, rEnd = n-r;
     for(int i = rBeg; i <= rEnd; i++) {
@@ -54,7 +51,6 @@ void mainDiagonalFlip(int r, vector<vector<int>> &m) {
         }
     }
 }
-
 void printMat(vector<vector<int>> &m) {
     for(int i = 0; i < m.size(); i++) {
         for(int j = 0; j < m.size(); j++) {
@@ -66,7 +62,6 @@ void printMat(vector<vector<int>> &m) {
         cout << endl;
     }
 }
-
 int main() {
     int cases, n, rings, t, c;
     cin >> cases;

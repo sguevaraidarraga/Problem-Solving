@@ -1,10 +1,11 @@
+# Folders
 cmake-build-debug-mingw/
 cmake-build-debug/
 build/
 .idea/
 .vscode/
 
-# Debug files
+# Debug folders
 input/
 output/
 

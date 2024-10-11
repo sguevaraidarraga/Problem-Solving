@@ -73,27 +73,24 @@ int main() {
                 cin >> m[i][j];
             }
         }
-        if(n%2 == 0) {
-            rings = n/2;
-        }
-        else {
-            rings = n/2 + 1;
-        }
+        rings = (n % 2 == 0) ? n/2 : n/2 + 1;
         for(int r = 1; r <= rings; r++) {
             cin >> t;
             while(t--) {
                 cin >> c;
-                if(c == 1) {
-                    upsideDownFlip(r, m);
-                }
-                else if(c == 2) {
-                    leftRightFlip(r, m);
-                }
-                else if(c == 3) {
-                    mainDiagonalFlip(r, m);
-                }
-                else if(c == 4) {
-                    mainInverseDiagonalFlip(r, m);
+                switch(c) {
+                    case 1:
+                        upsideDownFlip(r, m);
+                        break;
+                    case 2:
+                        leftRightFlip(r, m);
+                        break;
+                    case 3:
+                        mainDiagonalFlip(r, m);
+                        break;
+                    case 4:
+                        mainInverseDiagonalFlip(r, m);
+                        break;
                 }
             }
         }

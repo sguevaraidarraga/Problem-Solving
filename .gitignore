@@ -1,13 +1,18 @@
-# Folders
-cmake-build-debug-mingw/
-cmake-build-debug/
-build/
-.idea/
-.vscode/
+# Executables
+*.exe
 
-# Debug folders
+# Debug Folders
 input/
 output/
 
-# Executables
-*.exe
+# CMake Folders
+cmake-build-debug-mingw/
+cmake-build-debug/
+CMakeLists.txt
+CMakeCache.txt
+CMakePresets.json
+
+# IDE Folders
+build/
+.idea/
+.vscode/

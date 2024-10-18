@@ -4,8 +4,8 @@
 */
 
 #include <iostream>
-#include <string>
 #include <vector>
+#include <string>
 
 using namespace std;
 
@@ -57,13 +57,9 @@ int rotations(bool &verified, bool &reflected, vector<string> &original, vector<
     while(deg != 360 && !verified && ! reflected) {
         rotate90(original);
         verified = verifyPattern(original, newPattern);
-        printMat(original);
-        cout << "Verified: " << verified << endl;
         if(!verified) {
             reflect(original);
             reflected = verifyPattern(original, newPattern);
-            printMat(original);
-            cout << "Reflected: " << verified << endl;
             reflect(original);
         }
         deg += 90;

@@ -8,17 +8,9 @@
 #include <string>
 
 using namespace std;
+using Matrix = vector<string>;
 
-void printMat(vector<string> &m) {
-    int n = m.size();
-    for(int i = 0; i < n; i++) {
-        for(int j = 0; j < n; j++) {
-            cout << m[i][j] << ' ';
-        }
-        cout << endl;
-    }
-}
-void rotate90(vector<string> &m) {
+void rotate90(Matrix &m) {
     int n = m.size();
     for(int i = 0; i < n; i++) {
         for(int j = 0; j < i; j++) {
@@ -31,81 +23,83 @@ void rotate90(vector<string> &m) {
         }
     }
 }
-bool verifyPattern(vector<string> &original, vector<string> &newPattern) {
-    bool ans = true;
-    int n = original.size();
-    for(int i = 0; i < n && ans; i++) {
-        for(int j = 0; j < n && ans; j++) {
-            if(original[i][j] != newPattern[i][j]) {
-                ans = false;
-            }
-        }
-    }
-    return ans;
-}
-void reflect(vector<string> &original) {
-    int n = original.size();
+void reflect(Matrix &m) {
+    int n = m.size();
     for(int i = 0; i < n/2; i++) {
         for(int j = 0; j < n; j++) {
-            swap(original[i][j], original[n-(i+1)][j]);
+            swap(m[i][j], m[n-(i+1)][j]);
         }
     }
 }
-int rotations(bool &verified, bool &reflected, vector<string> &original, vector<string> &newPattern) {
-    int deg = 0;
-    verified = verifyPattern(original, newPattern);
-    while(deg != 360 && !verified && ! reflected) {
-        rotate90(original);
-        verified = verifyPattern(original, newPattern);
-        if(!verified) {
-            reflect(original);
-            reflected = verifyPattern(original, newPattern);
-            reflect(original);
+bool isEqual(Matrix &x, Matrix &y) {
+    bool a = true;
+    int n = x.size();
+    for(int i = 0; i < n && a; i++) {
+        for(int j = 0; j < n && a; j++) {
+            if(x[i][j] != y[i][j]) {
+                a = false;
+            }
         }
-        deg += 90;
     }
-    return deg;
+    return a;
 }
-int main() {
-    int n, deg, k = 1;
-    bool verified, reflected;
-    vector<string> original, newPattern;
-    while(cin >> n) {
-        vector<string> original(n), newPattern(n);
-        for(int i = 0; i < n; i++) {
-            for(int j = 0; j < n; j++) {
-                cin >> original[i][j];
-            }
-            for(int j = 0; j < n; j++) {
-                cin >> newPattern[i][j];
-            }
+int rotate(Matrix &x, Matrix &y, bool &v) {
+    int a = 0;
+    for(int i = 0; i < 4 && !v; i++) {
+        v = isEqual(x, y);
+        if(!v) {
+            rotate90(x);
         }
-        verified = false, reflected = false;
-        deg = rotations(verified, reflected, original, newPattern);
-        cout << deg << endl;
-        cout << "Pattern " << k << " was ";
-        if(deg == 0) {
-            cout << "preserved." << endl;
-        }
-        else if(deg != 360) {
-            if(verified) {
-                cout << "rotated " << deg << " degrees." << endl;
-            }
-            else if(reflected) {
-                cout << "reflected vertically and rotated " << deg << " degrees." << endl;
-            }
-        }
-        else {
-            reflect(original);
-            if(verifyPattern(original, newPattern)) {
+        a = i;
+    }
+    return a*90;
+}
+void output(Matrix &x, Matrix &y) {
+    bool v = false;
+    int d = rotate(x, y, v);
+    if(v) {
+        cout << "rotated " << d << " degrees." << endl;
+    }
+    else {
+        reflect(x);
+        d = rotate(x, y, v);
+        if(v) {
+            if(d == 0) {
                 cout << "reflected vertically." << endl;
             }
             else {
-                cout << "improperly transformed." << endl;
+                cout << "reflected vertically and rotated " << d << " degrees." << endl;
             }
         }
-        original.clear();
-        newPattern.clear();
+        else {
+            cout << "improperly transformed." << endl;
+        }
+    }
+}
+int main() {
+    int n, k = 1;
+    bool p;
+    while(cin >> n) {
+        Matrix x(n), y(n);
+        p = true;
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < n; j++) {
+                cin >> x[i][j];
+            }
+            for(int j = 0; j < n; j++) {
+                cin >> y[i][j];
+                if(x[i][j] != y[i][j]) {
+                    p = false;
+                }
+            }
+        }
+        cout << "Pattern " << k << " was ";
+        if(p) {
+            cout << "preserved." << endl;
+        }
+        else {
+            output(x, y);
+        }
         k++;
     }
     return 0;

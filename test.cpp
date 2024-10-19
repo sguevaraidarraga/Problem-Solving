@@ -10,15 +10,6 @@
 using namespace std;
 using Matrix = vector<string>;
 
-void printMat(Matrix &m) {
-    int n = m.size();
-    for(int i = 0; i < n; i++) {
-        for(int j = 0; j < n; j++) {
-            cout << m[i][j] << ' ';
-        }
-        cout << endl;
-    }
-}
 void rotate90(Matrix &m) {
     int n = m.size();
     for(int i = 0; i < n; i++) {
@@ -52,38 +43,36 @@ bool isEqual(Matrix &x, Matrix &y) {
     }
     return a;
 }
-int rotate(Matrix &x, Matrix &y, bool &v, bool &r) {
+int rotate(Matrix &x, Matrix &y, bool &v) {
     int a = 0;
-    bool f = false;
-    for(int i = 0; i < 3 && !f; i++) {
+    for(int i = 0; i < 4 && !v; i++) {
         v = isEqual(x, y);
         if(!v) {
-            reflect(x);
-            r = isEqual(x, y);
-            if(!r) {
-                reflect(x);
-                rotate90(x);
-            }
+            rotate90(x);
         }
-        if(v || r) {
-            f = true;
-            a = i;
-        }
+        a = i;
     }
     return a*90;
 }
 void output(Matrix &x, Matrix &y) {
-    bool v = false, r = false;
-    int d = rotate(x, y, v, r);
-    if(d == 0 && r) {
-         cout << "reflected vertically." << endl;
+    bool v = false;
+    int d = rotate(x, y, v);
+    if(v) {
+        cout << "rotated " << d << " degrees." << endl;
     }
     else {
+        reflect(x);
+        d = rotate(x, y, v);
         if(v) {
-            cout << "rotated " << d << " degrees." << endl;
+            if(d == 0) {
+                cout << "reflected vertically." << endl;
+            }
+            else {
+                cout << "reflected vertically and rotated " << d << " degrees." << endl;
+            }
         }
-        else if(r) {
-            cout << "reflected vertically and rotated " << d << " degrees." << endl;
+        else {
+            cout << "improperly transformed." << endl;
         }
     }
 }

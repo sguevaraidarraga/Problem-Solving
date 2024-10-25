@@ -45,7 +45,11 @@ class Team {
             return ans;
         }
         bool operator==(Team* b) {
-
+            bool ans = false;
+            if(points == b->points && goalDifference() == b->goalDifference() && scoredGoals == b->scoredGoals) {
+                ans = true;
+            }
+            return ans;
         }
 };
 int main() {
@@ -91,11 +95,11 @@ int main() {
         for(int i = 0; i < t; i++) {
             team = classification[i];
             team2 = classification[i-1];
-            if(i = 0 || team != team2) {
-                printf("%3s %3d %3d %3d %3d %3d     %.2f\n", team->name, team->points, team->gamesPlayed, team->scoredGoals, team->sufferedGoals, team->goalDifference(), team->porcentage());
+            if(team == team2) {
+                printf("%15s %3d %3d %3d %3d %3d     %.2f\n", team->name, team->points, team->gamesPlayed, team->scoredGoals, team->sufferedGoals, team->goalDifference(), team->porcentage());
             }
             else {
-                printf("%3s %3d %3d %3d %3d %3d     %.2f\n", team->name, team->points, team->gamesPlayed, team->scoredGoals, team->sufferedGoals, team->goalDifference(), team->porcentage());
+                printf(" %d. %15s %3d %3d %3d %3d %3d     %.2f\n", i+1, team->name, team->points, team->gamesPlayed, team->scoredGoals, team->sufferedGoals, team->goalDifference(), team->porcentage());
             }
         }
         teams.clear();

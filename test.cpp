@@ -1,106 +1,40 @@
 /*
     Santiago Guevara Idarraga
-    Problem: 466 Mirror, Mirror
+    Problem: 10698 Football Sort
 */
 
 #include <iostream>
-#include <vector>
 #include <string>
+#include <map>
+#include <vector>
+#include <algorithm>
 
 using namespace std;
-using Matrix = vector<string>;
 
-void rotate90(Matrix &m) {
-    int n = m.size();
-    for(int i = 0; i < n; i++) {
-        for(int j = 0; j < i; j++) {
-            swap(m[i][j], m[j][i]);
-        }
+struct Team {
+    string name;
+    int points, games, scored, suffered;
+    Team(string n) {
+        name = n;
+        points = games = scored = suffered = 0;
     }
-    for(int i = 0; i < n; i++) {
-        for(int j = 0; j < n/2; j++) {
-            swap(m[i][j], m[i][n-(j+1)]);
-        }
-    }
+};
+float goalDifference(Team* t) {
+    return t->scored - t->suffered;
 }
-void reflect(Matrix &m) {
-    int n = m.size();
-    for(int i = 0; i < n/2; i++) {
-        for(int j = 0; j < n; j++) {
-            swap(m[i][j], m[n-(i+1)][j]);
-        }
+bool operation(Team* a, Team* b) {
+    bool ans = false;
+    if(a->points != b->points) {
+        ans = a->points > b->points;
     }
-}
-bool isEqual(Matrix &x, Matrix &y) {
-    bool a = true;
-    int n = x.size();
-    for(int i = 0; i < n && a; i++) {
-        for(int j = 0; j < n && a; j++) {
-            if(x[i][j] != y[i][j]) {
-                a = false;
-            }
-        }
+    else if(goalDifference(a) != goalDifference(b)) {
+        ans = goalDifference(a) > goalDifference(b);
     }
-    return a;
-}
-int rotate(Matrix &x, Matrix &y, bool &v) {
-    int a = 0;
-    for(int i = 0; i < 4 && !v; i++) {
-        v = isEqual(x, y);
-        if(!v) {
-            rotate90(x);
-        }
-        a = i;
+    else if(a->scored != b->scored) {
+        ans = a->scored > b->scored;
     }
-    return a*90;
-}
-void output(Matrix &x, Matrix &y) {
-    bool v = false;
-    int d = rotate(x, y, v);
-    if(v) {
-        cout << "rotated " << d << " degrees." << endl;
+    else if(a->name != b->name) {
+        ans = a->name > b->name;
     }
-    else {
-        reflect(x);
-        d = rotate(x, y, v);
-        if(v) {
-            if(d == 0) {
-                cout << "reflected vertically." << endl;
-            }
-            else {
-                cout << "reflected vertically and rotated " << d << " degrees." << endl;
-            }
-        }
-        else {
-            cout << "improperly transformed." << endl;
-        }
-    }
-}
-int main() {
-    int n, k = 1;
-    bool p;
-    while(cin >> n) {
-        Matrix x(n), y(n);
-        p = true;
-        for(int i = 0; i < n; i++) {
-            for(int j = 0; j < n; j++) {
-                cin >> x[i][j];
-            }
-            for(int j = 0; j < n; j++) {
-                cin >> y[i][j];
-                if(x[i][j] != y[i][j]) {
-                    p = false;
-                }
-            }
-        }
-        cout << "Pattern " << k << " was ";
-        if(p) {
-            cout << "preserved." << endl;
-        }
-        else {
-            output(x, y);
-        }
-        k++;
-    }
-    return 0;
+    return ans;
 }

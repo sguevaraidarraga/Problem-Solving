@@ -3,9 +3,9 @@
     Problem: 10698 Football Sort
 */
 
-#include <string>
 #include <string.h>
 #include <map>
+#include <string>
 #include <vector>
 #include <algorithm>
 
@@ -23,18 +23,18 @@ int goalDifference(Team* t) {
     return t->scored - t->suffered;
 }
 float percentage(Team* t) {
-    return (100.0f * t->points) / (3.0f * t->games);
+    return (100.0 * t->points) / (3.0 * t->games);
 }
 bool operation(Team* a, Team* b) {
     bool ans = false;
     if(a->points != b->points) {
-        ans = a->points < b->points;
+        ans = a->points > b->points;
     }
     else if(goalDifference(a) != goalDifference(b)) {
-        ans = goalDifference(a) < goalDifference(b);
+        ans = goalDifference(a) > goalDifference(b);
     }
     else if(a->scored != b->scored) {
-        ans = a->scored < b->scored;
+        ans = a->scored > b->scored;
     }
     else if(a->name != b->name) {
         ans = a->name < b->name;
@@ -53,14 +53,15 @@ int main() {
     char n[16], home[16], away[16];
     Team *t1, *t2;
     map<string, Team*> teams;
+    vector<Team*> ans;
     while(scanf("%d %d", &t, &g) && t != 0 && g != 0) {
-        vector<Team*> ans;
         while(t--) {
             scanf("%s", n);
             teams[n] = new Team(n);
         }
         while(g--) {
             scanf("%s %d - %d %s", home, &s1, &s2, away);
+            //printf("%s %d - %d %s\n", home, s1, s2, away);
             t1 = teams[home];
             t2 = teams[away];
             if(s1 == s2) {
@@ -86,18 +87,20 @@ int main() {
         sort(ans.begin(), ans.end(), operation);
         for(int i = 0; i < ans.size(); i++) {
             if(i == 0 || !equal(ans[i], ans[i-1])) {
-                printf(" %d. %16s %3d %3d %3d %3d %3d    ", i+1, ans[i]->name, ans[i]->points, ans[i]->games, ans[i]->scored, ans[i]->suffered, goalDifference(ans[i]));
+                printf("%2d. %15s %3d %3d %3d %3d %3d ", i+1, ans[i]->name, ans[i]->points, ans[i]->games, ans[i]->scored, ans[i]->suffered, goalDifference(ans[i]));
             }
             else {
-                printf(" %19s %3d %3d %3d %3d %3d    ", ans[i]->name, ans[i]->points, ans[i]->games, ans[i]->scored, ans[i]->suffered, goalDifference(ans[i]));
+                printf("%19s %3d %3d %3d %3d %3d ", ans[i]->name, ans[i]->points, ans[i]->games, ans[i]->scored, ans[i]->suffered, goalDifference(ans[i]));
             }
             if(ans[i]->games == 0) {
-                printf("N/A\n");
+                printf("   N/A\n");
             }
             else {
-                printf("%.2f\n", percentage(ans[i]));
+                printf("%6.2f\n", percentage(ans[i]));
             }
         }
+        teams.clear();
+        ans.clear();
     }
     return 0;
 }

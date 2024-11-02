@@ -4,25 +4,27 @@
 */
 
 #include <string>
-#include <cstring>
 #include <iostream>
 #include <map>
 #include <vector>
+#include <algorithm>
+#include <cstring>
 
 using namespace std;
 
 class Team {
     public:
         string name;
-        int rank, points, games, wins, ties, losses, scored, against;
+        int points, games, wins, ties, losses, scored, against;
+        Team() = default;
         Team(string n) {
             name = n;
-            rank = points = games = wins = ties = losses = scored = against = 0;
+            points = games = wins = ties = losses = scored = against = 0;
         }
         int difference() {
             return scored - against;
         }
-        bool operator<(const Team &b) const {
+        bool operator<(Team &b) {
             bool ans = false;
             if(points != b.points) {
                 ans = points > b.points;
@@ -46,26 +48,30 @@ class Team {
         }
 };
 int main() {
-    int n, t, g;
-    map<string, Team> teams;
-    vector<Team> ans;
+    int n, t, g, s1, s2;
+    string tournament, tName;
+    char n1[31], n2[31];
+    Team *tm, *t1, *t2;
     while(cin >> n) {
-        cin.ignore();
+        cout << "n: " << n << endl;
         while(n--) {
             getline(cin, tournament);
             cin >> t;
-            cin.ignore();
+            cout << "tournament name: " << tournament << endl;
+            cout << "t: " << t << endl;
+            map<string, Team> teams;
+            vector<Team> ans;
             while(t--) {
-                getline(cin, team);
-                teams[team] = Team(team);
+                getline(cin, tName);
+                teams[tName] = Team(tName);
             }
             cin >> g;
-            cin.ignore();
+            cout << "g: " << g << endl;
             while(g--) {
-                scanf("%30[^#]#%d@%d#%30[^\n]", team1, &s1, &s2, team2);
-                //printf("%30s %d - %d %30s", team1, s1, s2, team2);
-                t1 = teams[team1];
-                t2 = teams[team2];
+                scanf("%30[^#]#%d@%d#%30[^\n]", n1, &s1, &s2, n2);
+                //printf("%s %d - %d %s\n", n1, s1, s2, n2);
+                t1 = &teams[n1];
+                t2 = &teams[n2];
                 if(s1 == s2) {
                     t1->points++;
                     t2->points++;
@@ -89,13 +95,16 @@ int main() {
                 t1->games++;
                 t2->games++;
             }
-            int i = 0;
-            for(auto it = teams.begin(); it != teams.end(); it++) {
-                t1 = it->second;
-                printf("%d) %30s %dp, %dg (%d-%d-%d), %dgd (%d-%d)", i++, t1->name.c_str(), t1->points, t1->games, t1->wins, t1->ties, t1->losses, t1->difference(), t1->scored, t1->against);
+            for(map<string, Team>::iterator it = teams.begin(); it != teams.end(); it++) {
+                ans.push_back(it->second);
             }
-            teams.clear();
-            ans.clear();
+            sort(ans.begin(), ans.end());
+            cout << tournament << endl;
+            for(int i = 0; i < ans.size(); i++) {
+                tm = &ans[i];
+                printf("%d) %s %dp, %dg (%d-%d-%d), %dgd (%d-%d)\n", i+1, tm->name.c_str(), tm->points, tm->games, tm->wins, tm->ties, tm->losses, tm->difference(), tm->scored, tm->against);
+            }
+            cout << endl;
         }
     }
     return 0;

@@ -16,7 +16,7 @@ int main() {
     string c;
     vector<stack<string>> v(52);
     while(cin >> c && c != "#") {
-        for(int i = 0; i < v.size(); i++) {
+        for(int i = 0; i < 51; i++) {
             v[i].push(c);
             cin >> c;
         }

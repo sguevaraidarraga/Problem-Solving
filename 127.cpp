@@ -9,33 +9,41 @@
 
 using namespace std;
 
-bool check(string &a, string &b) {
+bool match(string &a, string &b) {
     return a[0] == b[0] || a[1] == b[1];
 }
+void moveStack(stack<string> &from, stack<string> &to) {
+    while(!from.empty()) {
+        to.push(from.top());
+        from.pop();
+    }
+}
 int main() {
+    int i;
     string c;
-    vector<stack<string>> v(52);
     while(cin >> c && c != "#") {
+        vector<stack<string>> v(52);
         for(int i = 0; i < v.size(); i++) {
             v[i].push(c);
             cin >> c;
         }
-        for(int i = 1; i < v.size(); i++) {
-            if(i >= 3 && check(v[i-3].top(), v[i].top())) {
-                v[i-3].push(v[i].top());
-                v[i].pop();
-                i -= 4;
-            }
-            else if(i >= 1 && check(v[i-1].top(), v[i].top())) {
-                v[i-1].push(v[i].top());
-                v[i].pop();
-                i -= 2;
-            }
-            if(v[i].empty()) {
+        i = 1;
+        while(i < v.size()) {
+            if(i >= 3 && match(v[i-3].top(), v[i].top())) {
+                moveStack(v[i], v[i-3]);
                 v.erase(v.begin()+i);
+                i -= 3;
+            }
+            else if(i >= 1 && match(v[i-1].top(), v[i].top())) {
+                moveStack(v[i], v[i-1]);
+                v.erase(v.begin()+i);
+                i -= 1;
+            }
+            else {
+                i++;
             }
         }
-        cout << v.size() << " pile" << ((v.size() != 1) ? "s " : " ") << "remaining:";
+        cout << v.size() << " pile"; if(v.size() != 1){cout << "s";} cout << " remaining:";
         for(int i = 0; i < v.size(); i++) {
             cout << ' ' << v[i].size();
         }

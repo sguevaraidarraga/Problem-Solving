@@ -7,10 +7,11 @@
 #include <vector>
 #include <string>
 
-using namespace std;
-using Matrix = vector<string>;
+#define matrix vector<string>
 
-void rotate90(Matrix &m) {
+using namespace std;
+
+void rotate90(matrix &m) {
     int n = m.size();
     for(int i = 0; i < n; i++) {
         for(int j = 0; j < i; j++) {
@@ -23,7 +24,7 @@ void rotate90(Matrix &m) {
         }
     }
 }
-void reflect(Matrix &m) {
+void reflect(matrix &m) {
     int n = m.size();
     for(int i = 0; i < n/2; i++) {
         for(int j = 0; j < n; j++) {
@@ -31,7 +32,7 @@ void reflect(Matrix &m) {
         }
     }
 }
-bool isEqual(Matrix &x, Matrix &y) {
+bool isEqual(matrix &x, matrix &y) {
     bool a = true;
     int n = x.size();
     for(int i = 0; i < n && a; i++) {
@@ -43,7 +44,7 @@ bool isEqual(Matrix &x, Matrix &y) {
     }
     return a;
 }
-int rotate(Matrix &x, Matrix &y, bool &v) {
+int rotate(matrix &x, matrix &y, bool &v) {
     int a = 0;
     for(int i = 0; i < 4 && !v; i++) {
         v = isEqual(x, y);
@@ -54,7 +55,7 @@ int rotate(Matrix &x, Matrix &y, bool &v) {
     }
     return a*90;
 }
-void output(Matrix &x, Matrix &y) {
+void output(matrix &x, matrix &y) {
     bool v = false;
     int d = rotate(x, y, v);
     if(v) {
@@ -80,7 +81,7 @@ int main() {
     int n, k = 1;
     bool p;
     while(cin >> n) {
-        Matrix x(n), y(n);
+        matrix x(n), y(n);
         p = true;
         for(int i = 0; i < n; i++) {
             for(int j = 0; j < n; j++) {

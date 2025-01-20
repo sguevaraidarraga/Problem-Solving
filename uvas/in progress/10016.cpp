@@ -6,10 +6,11 @@
 #include <iostream>
 #include <vector>
 
-using namespace std;
-using Matrix = vector<vector<int>>;
+#define matrix vector<vector<int>>
 
-void upsideDownFlip(int r, Matrix &m) {
+using namespace std;
+
+void upsideDownFlip(int r, matrix &m) {
     int n = m.size(), rBeg = r-1, rEnd = n-r, row = 0;
     for(int i = rBeg; i < n/2; i++) {
         for(int j = rBeg; j <= rEnd; j++) {
@@ -20,7 +21,7 @@ void upsideDownFlip(int r, Matrix &m) {
         row++;
     }
 }
-void leftRightFlip(int r, Matrix &m) {
+void leftRightFlip(int r, matrix &m) {
     int n = m.size(), rBeg = r-1, rEnd = n-r, col;
     for(int i = rBeg; i <= rEnd; i++) {
         col = 0;
@@ -32,7 +33,7 @@ void leftRightFlip(int r, Matrix &m) {
         }
     }
 }
-void mainInverseDiagonalFlip(int r, Matrix &m) {
+void mainInverseDiagonalFlip(int r, matrix &m) {
     int n = m.size(), rBeg = r-1, rEnd = n-r;
     for(int i = rBeg; i <= rEnd; i++) {
         for(int j = rBeg; j <= rEnd-i; j++) {
@@ -42,7 +43,7 @@ void mainInverseDiagonalFlip(int r, Matrix &m) {
         }
     }
 }
-void mainDiagonalFlip(int r, Matrix &m) {
+void mainDiagonalFlip(int r, matrix &m) {
     int n = m.size(), rBeg = r-1, rEnd = n-r;
     for(int i = rBeg; i <= rEnd; i++) {
         for(int j = rBeg; j <= i; j++) {
@@ -52,7 +53,7 @@ void mainDiagonalFlip(int r, Matrix &m) {
         }
     }
 }
-void printMat(Matrix &m) {
+void printMat(matrix &m) {
     for(int i = 0; i < m.size(); i++) {
         for(int j = 0; j < m.size(); j++) {
             cout << m[i][j];
@@ -68,13 +69,13 @@ int main() {
     cin >> cases;
     while(cases--) {
         cin >> n;
-        Matrix m(n, vector<int>(n));
+        matrix m(n, vector<int>(n));
         for(int i = 0; i < n; i++) {
             for(int j = 0; j < n; j++) {
                 cin >> m[i][j];
             }
         }
-        rings = (n % 2 == 0) ? n/2 : n/2 + 1;
+        rings = (n%2 == 0) ? n/2 : n/2 + 1;
         for(int r = 1; r <= rings; r++) {
             cin >> t;
             while(t--) {

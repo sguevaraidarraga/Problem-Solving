@@ -14,7 +14,7 @@ typedef vector<vi> vvi;
 typedef vector<pii> vpii;
 typedef map<int, int> mii;
 
-#define f(i, s, e) for(int i = s; i < e, i++)
+#define f(i, s, e) for(int i = s; i < e; i++)
 #define rf(i, e, s) for(int i = e-1; i >= s; i--)
 #define fit(it, v) for(auto it = v.begin(); it != v.end(); it++)
 #define rfit(it, v) for(auto it = v.rbegin(); it != v.rend(); it++)
@@ -24,7 +24,7 @@ typedef map<int, int> mii;
 #define all(v) v.begin(), v.end()
 #define rall(v) v.rbegin(), v.rend()
 #define srt(v) sort(all(v))
-#define sz(v) v.size()
+#define sze(v) v.size()
 #define len(s) s.lenght()
 
 #define F first

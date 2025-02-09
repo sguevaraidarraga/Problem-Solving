@@ -12,6 +12,7 @@ typedef vector<int> vi;
 typedef vector<string> vs;
 typedef vector<vi> vvi;
 typedef vector<pii> vpii;
+typedef stack<int> si;
 typedef map<int, int> mii;
 
 #define f(i, s, e) for(int i = s; i < e; i++)
@@ -30,8 +31,8 @@ typedef map<int, int> mii;
 #define F first
 #define S second
 
-#define debug(x) cout << #x << ": " << endl;
-#define op() ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+#define debug(x) cout << #x << ": " << x << endl
+#define op() ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0)
 
 int main() {
     op();
